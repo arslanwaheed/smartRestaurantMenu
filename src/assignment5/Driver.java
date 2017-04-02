@@ -5,19 +5,16 @@
  */
 package assignment5;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -33,7 +30,7 @@ public class Driver extends Application {
                     imageName = "",
                     desc = "";
             double price = 0.0;
-            ArrayList<Dish> dishes = new ArrayList<Dish>();
+            ArrayList<Dish> dishes = new ArrayList<>();
             
             Scanner sc = new Scanner(getClass().getResourceAsStream("/resources/config.txt"));            
 
@@ -70,41 +67,103 @@ public class Driver extends Application {
             }//end of for loop
             
             
-            ArrayList<GridPane> grids = new ArrayList<GridPane>();
-            
+            ArrayList<GridPane> grids = new ArrayList<>();
+            ArrayList<Button> nextButtons = new ArrayList<>();
+            ArrayList<Button> prevButtons = new ArrayList<>();
+            ArrayList<Scene> scenes = new ArrayList<>();
             
             //define screen here
+            int counter = 0;
             for (Dish dish : dishes) {
-               GridPane grid = new GridPane();
+               //adding image and setting its size
                ImageView iview = new ImageView();
-               Image img = new Image(dish.imageName);
-               
+               Image img = new Image(dish.imageName);               
                iview.setImage(img);
-               iview.setFitHeight(500);
-               iview.setFitWidth(500);
+               iview.setFitHeight(300);
+               iview.setFitWidth(300);
                
+               //labels
                Label titleLbl = new Label(dish.name);
-               Label descLbl = new Label(dish.desc);
-               Label priceLbl = new Label(""+dish.price);
-               
                titleLbl.setId("title");
+               Label descLbl = new Label(dish.desc);              
+               descLbl.setWrapText(true);
+               descLbl.setMaxWidth(300);
+               Label priceLbl = new Label("Price: $"+dish.price);
                
-               grid.add(titleLbl,1,1);
+               //buttons creation
+               Button nb = new Button("Next >");
+               nextButtons.add(nb);
+               
+               Button pb = new Button("< Prev");
+               prevButtons.add(pb);
+               
+               
+               //buttons event handlers
+               nextButtons.get(counter).setOnAction((ActionEvent event) -> {
+                   primaryStage.close();
+                   int next = 0;
+                   
+                   for (int i = 0; i < grids.size(); i++) {
+                       if(event.getSource().equals(nextButtons.get(i))){
+                           next = i+1;
+                       }
+                   }
+                   
+                   if(event.getSource().equals(nextButtons.get(grids.size()-1))){
+                       next = 0;
+                   }
+                   
+                   primaryStage.setScene(scenes.get(next));
+                   primaryStage.show();
+               });
+               
+               prevButtons.get(counter).setOnAction((ActionEvent event) -> {
+                   primaryStage.close();
+                   int prev = 0;
+                   
+                   for (int i = 0; i < grids.size(); i++) {
+                       if(event.getSource().equals(prevButtons.get(i))){
+                           prev = i-1;
+                       }
+                   }
+                   
+                   if(event.getSource().equals(prevButtons.get(0))){
+                       prev = grids.size()-1;
+                   }
+                   
+                   primaryStage.setScene(scenes.get(prev));
+                   primaryStage.show();
+               });
+               
+               //Adding everything to gridpane
+               GridPane grid = new GridPane();
+               grid.setHgap(10);
+               grid.setVgap(10);
+               
+               grid.add(titleLbl,1,1,2,1);
+               grid.add(descLbl, 2, 2);
+               grid.add(priceLbl,2,3);
                grid.add(iview,1,2);
                
-               grid.add(descLbl, 2, 2);
+               
+               
+               grid.add(prevButtons.get(counter),1,4);
+               grid.add(nextButtons.get(counter),3,4);
                
                grids.add(grid);
+               
+               Scene scene = new Scene(grids.get(counter),700,500);
+               scene.getStylesheets().add(Driver.class.getResource("/resources/myStyle.css").toExternalForm());
+               
+               scenes.add(scene);
+               
+               counter++;
             }
-            
-            Scene scene = new Scene(grids.get(3),800,700);
-            
-            scene.getStylesheets().add(Driver.class.getResource("/resources/myStyle.css").toExternalForm());
-            
+  
             primaryStage.setTitle("SmartRestaurant Table 21");
-            primaryStage.setScene(scene);
+            primaryStage.setScene(scenes.get(0));
             primaryStage.show();
-            
+
         }
         catch(Exception ex){
             System.out.println("Exception " + ex + " caught!");
