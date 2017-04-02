@@ -1,0 +1,21 @@
+4
+
+Name: Pasta E Fagioli
+Price: 29.99
+Image: fagioli.jpg
+Description: A classic Italian favorite with small tubular shaped pasta, white & red cannellini beans with a touch of fresh crushed plum tomato, roasted garlic & extra virgin olive oil.
+
+Name: Grilled Chicken Toscana
+Description: Marinated grilled chicken topped with sauteed broccoli rabe & homemade fresh mozzarella.
+Price: 20.99
+Image: toscana.jpg
+
+Name: Fusilli Casalinga
+Description: Corkscrew shaped pasta tossed with fresh broccoli rabe & grilled chicken strips, sauteed in a light roasted garlic & virgin olive oil brodino
+Image: fusilli.jpg
+Price: 12.49
+
+Name: Linguine Di Mare (Red or White)
+Description: Fresh shrimp, (3 per order) mussels & Manila clams sauteed in your choice of Price: Mild Marinara Style, Spicy Fra Diavolo or in a light roasted garlic & virgin olive oil brodino, served over linguine pasta
+Price: 25.99
+Image: linguine.jpg
